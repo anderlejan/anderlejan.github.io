@@ -1,5 +1,5 @@
 /* Cache-first service worker so the flashlight opens with no network. */
-const CACHE = 'light-v1';
+const CACHE = 'light-v2';
 const ASSETS = [
   './',
   'index.html',

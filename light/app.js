@@ -293,6 +293,57 @@
     releaseCamera();
   });
 
+  /* ---------- install ---------- */
+
+  const installBtn = $('install');
+  const iosHelp = $('iosHelp');
+  let deferredPrompt = null;
+
+  const isStandalone = () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  const isIOS = () =>
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  // Chromium fires this when the app meets the install criteria.
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!isStandalone()) installBtn.hidden = false;
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (outcome === 'accepted') installBtn.hidden = true;
+      return;
+    }
+    // Safari has no install API — show the manual steps instead.
+    iosHelp.hidden = !iosHelp.hidden;
+  });
+
+  $('iosClose').addEventListener('click', () => { iosHelp.hidden = true; });
+
+  window.addEventListener('appinstalled', () => {
+    installBtn.hidden = true;
+    iosHelp.hidden = true;
+    setStatus('Installed. Open Light from your home screen.');
+  });
+
+  function initInstallUI() {
+    if (isStandalone()) {
+      installBtn.hidden = true;
+      hintEl.hidden = true;
+      return;
+    }
+    // iOS never fires beforeinstallprompt, so offer the manual route up front.
+    if (isIOS()) installBtn.hidden = false;
+  }
+
   /* ---------- boot ---------- */
 
   (function boot() {
@@ -307,6 +358,7 @@
     } else {
       setStatus('Camera LED ready — permission is asked on first use.');
     }
+    initInstallUI();
   })();
 
   if ('serviceWorker' in navigator) {
