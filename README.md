@@ -1,5 +1,11 @@
 ## Welcome to GitHub Pages
 
+### 🔦 [Light — flashlight app](light/)
+
+Open [**/light/**](light/) on your phone. It switches on the camera LED where the browser
+allows it, and otherwise turns the screen into a lamp (colour + brightness). Steady, strobe
+and SOS modes, keeps the screen awake, installable to the home screen, and works offline.
+
 You can use the [editor on GitHub](https://github.com/anderlejan/anderlejan.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.

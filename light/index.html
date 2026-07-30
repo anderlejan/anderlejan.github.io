@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Light — flashlight for your phone</title>
+<meta name="description" content="A flashlight app: switches on your phone's camera LED, or turns the screen into a lamp. Works offline, installable.">
+<meta name="theme-color" content="#0b0d10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Light">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="screenlamp" class="screenlamp" hidden></div>
+
+<main class="app">
+  <header class="bar">
+    <h1>Light</h1>
+    <p id="status" class="status">Checking for LED…</p>
+  </header>
+
+  <button id="power" class="power" type="button" aria-pressed="false">
+    <span class="glow"></span>
+    <span class="bulb" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18h6M10 21h4"/>
+        <path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5.9 1.2.9 1.9V16h5.4v-.3c0-.7.3-1.4.9-1.9A6 6 0 0 0 12 3z"/>
+      </svg>
+    </span>
+    <span id="powerLabel" class="label">Off</span>
+  </button>
+
+  <section class="modes" role="group" aria-label="Mode">
+    <button class="chip is-on" type="button" data-mode="steady">Steady</button>
+    <button class="chip" type="button" data-mode="strobe">Strobe</button>
+    <button class="chip" type="button" data-mode="sos">SOS</button>
+  </section>
+
+  <section class="panel">
+    <label class="row">
+      <span class="row-label">Source</span>
+      <span class="seg" role="group" aria-label="Light source">
+        <button id="srcTorch" class="seg-btn is-on" type="button" data-src="torch">Camera LED</button>
+        <button id="srcScreen" class="seg-btn" type="button" data-src="screen">Screen</button>
+      </span>
+    </label>
+
+    <label class="row" id="rateRow" hidden>
+      <span class="row-label">Speed <output id="rateOut">4.0 Hz</output></span>
+      <input id="rate" type="range" min="1" max="15" step="0.5" value="4">
+    </label>
+
+    <div id="screenOpts" hidden>
+      <label class="row">
+        <span class="row-label">Brightness <output id="dimOut">100%</output></span>
+        <input id="dim" type="range" min="10" max="100" step="1" value="100">
+      </label>
+      <div class="row">
+        <span class="row-label">Colour</span>
+        <div class="swatches" id="swatches" role="group" aria-label="Screen colour"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="hint" id="hint">Tap the bulb, or press <kbd>space</kbd>.</p>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
